@@ -9,7 +9,13 @@ if len(sys.argv) != 2:
     print("Enter only 2 arguments please!")
     quit()
 
-Workfolder = Path(f"{sys.argv[1]}")
+Workfolder = Path(sys.argv[1])
+print(Workfolder)
+
+if not Workfolder.exists():
+    
+    print("Folder doesn`t exists")
+    quit()
 
 cyrillic_symbols = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
 translation = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
@@ -43,36 +49,43 @@ def foldersearch(path):
             if object.suffix == '.jpeg' or object.suffix == '.png' or object.suffix == '.jpg' or object.suffix == '.svg':
                 newname = normalize(object.name.split(".")[0])
                 suff = object.name.split(".")[1]
-                os.rename(object, f"{Workfolder}/images/{newname}.{suff}")
+                newfolder = Workfolder.joinpath("images")
+                os.replace(object, newfolder.joinpath(f"{newname}.{suff}"))
                 print(normalize(object.name.split(".")[0]))
             # Перенос и переименование видео файлов
             if object.suffix == '.avi' or object.suffix == '.mp4' or object.suffix == '.mov' or object.suffix == '.mkv':
                 newname = normalize(object.name.split(".")[0])
                 suff = object.name.split(".")[1]
-                os.rename(object, f"{Workfolder}/video/{newname}.{suff}")
+                newfolder = Workfolder.joinpath("video")
+                os.replace(object, newfolder.joinpath(f"{newname}.{suff}"))
                 print(normalize(object.name.split(".")[0]))
             # Перенос и переименование документов
             if object.suffix == '.doc' or object.suffix == '.docx' or object.suffix == '.txt' or object.suffix == '.pdf' or object.suffix == '.xlsx' or object.suffix == '.pptx':
                 newname = normalize(object.name.split(".")[0])
                 suff = object.name.split(".")[1]
-                os.rename(object, f"{Workfolder}/documents/{newname}.{suff}")
+                newfolder = Workfolder.joinpath("documents")
+                os.replace(object, newfolder.joinpath(f"{newname}.{suff}"))
                 print(normalize(object.name.split(".")[0]))
             # Перенос и переименование аудиофайлов
             if object.suffix == '.mp3' or object.suffix == '.ogg' or object.suffix == '.wav' or object.suffix == '.amr':
                 newname = normalize(object.name.split(".")[0])
                 suff = object.name.split(".")[1]
-                os.rename(object, f"{Workfolder}/audio/{newname}.{suff}")
+                newfolder = Workfolder.joinpath("audio")
+                os.replace(object, newfolder.joinpath(f"{newname}.{suff}"))
                 print(normalize(object.name.split(".")[0]))
             # Распаковка и переименование архивов
             if object.suffix == '.zip':
                 newname = normalize(object.name.split(".")[0])
-                shutil.unpack_archive(object, f"{Workfolder}/archives/{newname}")
+                newfolder = Workfolder.joinpath("archives")
+                shutil.unpack_archive(object, newfolder.joinpath(f"{newname}"))
             if object.suffix == '.gz':
                 newname = normalize(object.name.split(".")[0])
-                shutil.unpack_archive(object, f"{Workfolder}/archives/{newname}")
+                newfolder = Workfolder.joinpath("archives")
+                shutil.unpack_archive(object, newfolder.joinpath(f"{newname}"))
             if object.suffix == '.tar':
                 newname = normalize(object.name.split(".")[0])
-                shutil.unpack_archive(object, f"{Workfolder}/archives/{newname}")
+                newfolder = Workfolder.joinpath("archives")
+                shutil.unpack_archive(object, newfolder.joinpath(f"{newname}"))
 # Удаляем пустые папки после переноса файлов
     for object in path.iterdir():
         print(object)
